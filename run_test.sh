@@ -1,23 +1,6 @@
 #!/bin/sh
 echo "Start run selenium tests..."
+echo $BRANCH_NAME
 export PATH=$PATH:$(pwd)/drivers
+python basic_test.py
 
-
-
-
-if getopts 'stage' flag; then
-  case $flag in
-    stage) # Run stage tests
-       shift
-       python basic_test.py
-       ;;
-    s) # Run full tests with migrations
-       shift
-       py.test "$@" --nomigrations
-       ;;
-  esac
-else
-  py.test "$@" --nomigrations
-fi
-
-export RUN_ENV=DEV
