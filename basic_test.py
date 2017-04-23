@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from time import sleep
 # from django.test import LiveServerTestCase
 from selenium import webdriver
@@ -24,6 +25,8 @@ class TestExample(unittest.TestCase):
         driver.get(self.base_url)
         driver.get(self.base_url + "/ua/New-York-City-NY/repetitory--angliyskogo")
         driver.get(self.base_url + "/ua/repetytor/1/")
+        print os.getenv('BRANCH_NAME', '')
+        assert os.getenv('BRANCH_NAME', '') == 'stage'
         driver.quit()
         self.display.stop()
 
