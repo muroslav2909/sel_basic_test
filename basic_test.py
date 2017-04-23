@@ -8,6 +8,12 @@ from selenium.common.exceptions import NoAlertPresentException
 import unittest
 from pyvirtualdisplay import Display
 
+def get_base_url():
+    branch_name = os.getenv('BRANCH_NAME', '')
+    if branch_name != 'saas-stage':
+        return 'https://%s.preply.com' % os.getenv('BRANCH_NAME', '')
+    return 'https://saas.preply.com'
+
 class TestExample(unittest.TestCase):
 
     def setUp(self):
@@ -15,7 +21,7 @@ class TestExample(unittest.TestCase):
         self.display.start() # for server should be uncomented
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.base_url = 'https://stage2.preply.com'
+        self.base_url = get_base_url()
         self.verificationErrors = []
         self.accept_next_alert = True
 
@@ -25,10 +31,14 @@ class TestExample(unittest.TestCase):
         driver.get(self.base_url)
         driver.get(self.base_url + "/ua/New-York-City-NY/repetitory--angliyskogo")
         driver.get(self.base_url + "/ua/repetytor/1/")
-        print os.getenv('BRANCH_NAME', '')
-        assert os.getenv('BRANCH_NAME', '') == 'stage'
+        print self.base_url
+        assert self.base_url == 'https://stage2.preply.com'
         driver.quit()
         self.display.stop()
+
+    def test_example2(self):
+        driver = self.driver
+        driver.get(self.base_url + "/ua/repetytor/1/")
 
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)

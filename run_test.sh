@@ -1,6 +1,7 @@
 #!/bin/sh
-echo "Start run selenium tests..."
+sudo pip install -U pytest
+echo "Start run selenium tests for"
 echo $BRANCH_NAME
 export PATH=$PATH:$(pwd)/drivers
-python basic_test.py
+pytest
 
